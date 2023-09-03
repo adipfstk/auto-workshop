@@ -5,6 +5,8 @@ import java.time.Period;
 
 public class Employee {
     public static long id;
+
+    private final long idCopy = id - 1;
     private final EmployeeDetails employeeDetails;
 
     public Employee(EmployeeDetails employeeDetails) {
@@ -62,5 +64,9 @@ public class Employee {
 
     public void setSalaryCoefficient(double salaryCoefficient) {
         this.employeeDetails.setSalaryCoefficient(salaryCoefficient);
+    }
+
+    public long getIdCopy() {
+        return idCopy;
     }
 }
