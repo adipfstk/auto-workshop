@@ -5,6 +5,8 @@ public class Menu {
     public void displayMenu() {
         EmployeeManagementMenu employeeManagementMenu = new EmployeeManagementMenu();
         WorkshopMenu workshopMenu = new WorkshopMenu();
+        CarInsuranceMenu carInsuranceMenu = new CarInsuranceMenu();
+
         while (true) {
             System.out.println("Main menu");
             System.out.println("===================");
@@ -19,7 +21,7 @@ public class Menu {
                 employeeManagementMenu.displayMenu();
                 // Add cases for cars management and workshop activities as needed.
             } else if (option == 2) {
-                continue;
+                carInsuranceMenu.displayMenu();
             } else if (option == 3) {
                 workshopMenu.displayMenu();
             } else {

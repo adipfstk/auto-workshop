@@ -31,7 +31,12 @@ public class WorkshopMenu {
             case 3 -> car = new Bus();
         }
         if (car!=null)
-            ((Mechanic) this.employees.get(id)).addCar(car);
+            try {
+                ((Mechanic) this.employees.get(id)).addCar(car);
+            }
+            catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+                System.out.println("The id of requested mechanic is invalid!");
+            }
     }
 
     public void displayMenu() {

@@ -64,13 +64,83 @@ public class EmployeeManagementMenu {
         }
     }
 
-    void calcEmpSalaryById(int id) {
+    private void calcEmpSalaryById(int id) {
         try {
             System.out.println(WorkShop.getInstance().getEmployees().get(id).calculateSalary());
         }
         catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             System.out.println("User id is not valid");
         }
+    }
+
+    private void editEmployeeDetails() {
+        System.out.print("Enter Employee ID to find: ");
+        long idToFind = scanner.nextLong();
+        scanner.nextLine();
+
+        Optional<Employee> foundEmployee = findEmployeeById(idToFind);
+        if (foundEmployee.isPresent()) {
+            Employee employee = foundEmployee.get();
+            System.out.println("Employee found:");
+            System.out.println("ID: " + employee.getIdCopy());
+            System.out.println("Name: " + employee.getName());
+
+            boolean continueUpdating = true;
+
+            while (continueUpdating) {
+                System.out.println("What field do you want to update (name, surname, birthdate, empdate, salary, exit)?");
+                String fieldToUpdate = scanner.nextLine().toLowerCase();
+
+                switch (fieldToUpdate) {
+                    case "name":
+                        System.out.print("Enter new name: ");
+                        String newName = scanner.nextLine();
+                        employee.setName(newName);
+                        System.out.println("Name updated successfully.");
+                        break;
+                    case "surname":
+                        System.out.print("Enter new surname: ");
+                        String newSurname = scanner.nextLine();
+                        employee.setSurname(newSurname);
+                        System.out.println("Surname updated successfully.");
+                        break;
+                    case "birthdate":
+                        System.out.print("Enter new birthdate (yyyy-MM-dd): ");
+                        LocalDate newBirthDate = LocalDate.parse(scanner.nextLine());
+                        employee.setBirthDate(newBirthDate);
+                        System.out.println("Birthdate updated successfully.");
+                        break;
+                    case "empdate":
+                        System.out.print("Enter new employment date (yyyy-MM-dd): ");
+                        LocalDate newEmpDate = LocalDate.parse(scanner.nextLine());
+                        employee.setEmpDate(newEmpDate);
+                        System.out.println("Employment date updated successfully.");
+                        break;
+                    case "salary":
+                        System.out.print("Enter new salary coefficient: ");
+                        double newSalaryCoefficient = scanner.nextDouble();
+                        scanner.nextLine(); // Consume newline
+                        employee.setSalaryCoefficient(newSalaryCoefficient);
+                        System.out.println("Salary coefficient updated successfully.");
+                        break;
+                    default:
+                        System.out.println("You sure you wanna exit? [yes - exit, no - continue]");
+                        String continueInput = scanner.nextLine().toLowerCase();
+                        continueUpdating = !continueInput.equals("yes");
+                        break;
+                }
+            }
+        } else {
+            System.out.println("Employee not found with ID: " + idToFind);
+        }
+    }
+
+
+
+    private Optional<Employee> findEmployeeById(long id) {
+        return WorkShop.getInstance().getEmployees().stream()
+                .filter(employee -> employee.getIdCopy() == id)
+                .findFirst();
     }
 
     public void displayMenu() {
@@ -84,7 +154,9 @@ public class EmployeeManagementMenu {
 
             if (option == 1) {
                 addEmployee();
-                // Add cases for editing and calculating salary by ID as needed.
+            }
+            else if (option == 2) {
+                editEmployeeDetails();
             }
             else if (option == 3) {
                 var userId = InputUtil.readInput("Enter your desired user id: ");

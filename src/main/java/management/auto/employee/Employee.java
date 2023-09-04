@@ -5,7 +5,6 @@ import java.time.Period;
 
 public class Employee {
     public static long id;
-
     private final long idCopy = id - 1;
     private final EmployeeDetails employeeDetails;
 

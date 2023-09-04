@@ -11,6 +11,7 @@ public class Mechanic extends Employee {
     private boolean standardAvailable;
     private boolean otherAvailable;
     private final ExecutorService executorService;
+    private boolean free = true;
 
     public Mechanic(EmployeeBuilder employeeBuilder) {
         super(employeeBuilder.getEmployeeDetails());
@@ -20,7 +21,10 @@ public class Mechanic extends Employee {
     }
 
     public void addCar(Car car) {
-        executorService.submit(this.task);
+        if (free) {
+            this.executorService.submit(this.task);
+            free = false;
+        }
         var standardCarCount = this.task.getStandardCarCount();
         var otherCarCount = this.task.getOtherCarCount();
         var mechanicQueue = this.task.getCarQueue();
